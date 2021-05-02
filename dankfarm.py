@@ -10,7 +10,7 @@ from discord.ext import commands
 from discord.ext.commands import has_permissions
 
 #ignore any useless code idgaf 
-bot_token = 'ODMzNDg2MjE2NzA3NTcxNzQz.YHzChw.SBGkQ8t3-k-CL-VrXNe1E8GCZyE'
+bot_token = 'TOKEN'
 
 
 intents = discord.Intents.default()
