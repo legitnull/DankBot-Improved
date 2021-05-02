@@ -6,6 +6,8 @@ Self-bots are against Discord's terms of service, using this on servers that are
 ## TODO
 PROXIES PROXIES PROXIES!!!!
 
+AUTO PROXY SCRAPER
+
 DRAGON AND EVENT CATCH FOR SINGLE TOKEN IN SPECIFIC CHANNEL
 
 PURGE ALL & NUKE COMMANDS THROUGH DISCORD BOT 
