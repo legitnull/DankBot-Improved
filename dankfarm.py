@@ -9,14 +9,14 @@ import random
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 
-
-bot_token = 'TOKEN'
+#ignore any useless code idgaf 
+bot_token = 'ODMzNDg2MjE2NzA3NTcxNzQz.YHzChw.SBGkQ8t3-k-CL-VrXNe1E8GCZyE'
 
 
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='!', help_command=None, case_insensitive=True, intents=intents)
-with open("tokens.txt", "r") as f:
+with open("tokens.txt", "r") as f: #user tokens file
     tokens = f.read().splitlines()
 proceed = False
 channel_assignment = {}
@@ -96,7 +96,6 @@ async def ready(ctx):
         channel = await ctx.guild.create_text_channel(bot_ids[token])
         global channel_assignment
         channel_assignment[token] = channel.id
-        # await message.edit(content=f"Assigned <@{info['id']}> to {channel.mention}...")
     await message.edit(content="Finished creating channels")
 
 
@@ -125,33 +124,42 @@ async def start(ctx, *, target: discord.Member):
                 await send(token, "yes")
                 await asyncio.sleep(3)
             rarecount += 1
-        if rarecount >= 20: #sell all rares
-            rarecount = 0
-            for token in channel_assignment.keys(): 
-                await send(token, "pls sell skunk all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell rabbit all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell rarefish all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell bread all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell duck all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell deer all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell boar all")
-                await asyncio.sleep(3)
-                await send(token, "pls sell sand all")
-                await asyncio.sleep(3)
-                await send(token, f"pls share all {target.id}")
-                await asyncio.sleep(3)
-                await send(token, "yes")
-                await asyncio.sleep(3)
         await asyncio.sleep(50)
         end = datetime.datetime.now()
         print(round((end - start).total_seconds()))
+        return rarecount
 
+
+@bot.event #SELL RARES SEPRATE FUNC
+async def sellrares(ctx, target: discord.Member):
+    await ctx.send("Now selling rares")
+    if rarecount >= 20: #sell that shit
+        start = datetime.datetime.now()
+        rarecount = 0
+        for token in channel_assignment.keys(): 
+            await send(token, "pls sell skunk all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell rabbit all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell rarefish all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell bread all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell duck all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell deer all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell boar all")
+            await asyncio.sleep(3)
+            await send(token, "pls sell sand all")
+            await asyncio.sleep(3)
+            await send(token, f"pls share all {target.id}")
+            await asyncio.sleep(3)
+            await send(token, "yes")
+            await asyncio.sleep(3)
+        await asyncio.sleep(50)
+        end = datetime.datetime.now()
+        print(round((end - start).total_seconds()))
 
 @bot.command()
 @has_permissions(administrator=True)
@@ -227,10 +235,12 @@ async def channel(ctx, *, member: discord.Member):
         await message.edit(content=f"Bot's channel is {channel.mention}")
     except:
         await message.edit(content="Failed to find channel")
+#@bot.event
+#sync def daily(ctx, *, target: discord.Member) #ADD DAILY CLAIM
 
 @bot.event
 async def on_message(message):
-    if message.author.id == 270904126974590976:
+    if message.author.id == 270904126974590976: #add catch l8r, drunk
         if message.content.startswith(f'Type `') or message.content.startswith('Attack the boss by typing `') or 'Type `' in message.content:
             phrase = ((re.search('`(.*)`', message.content).group(1)).encode('ascii', 'ignore')).decode('utf-8')
             for token in random.sample(tokens, k=15): #remove if single user
@@ -247,15 +257,3 @@ async def on_message(message):
 
 if __name__ == '__main__':
     init()
-
-#==================TODO=================
-#add daily auto
-#add work if no job get one 
-#add auto catch dragon
-#make whales/bankers
-#make casinos
-#make arms dealer
-#add snipers
-#add tip.cc and owo
-#add advertisers
-#make marketing
