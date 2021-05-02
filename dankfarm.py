@@ -9,7 +9,6 @@ import random
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 
-#ignore any useless code idgaf 
 bot_token = 'TOKEN'
 
 
@@ -64,28 +63,28 @@ async def join(ctx):
     message = await ctx.send(f"Creating invite...")
     link = str(await ctx.channel.create_invite())
     invite = link.split('/')[3]
-    await message.edit(content=f"Bots now joining using {invite}...")
+    await message.edit(content=f"BOTS NOW JOINING USING: {invite}...")
     for token in tokens:
         headers = {"Content-Type": "application/json", "Authorization": token}
         response = requests.post(f"https://discord.com/api/v6/invites/{invite}", headers=headers).status_code
         if response > 199 and response < 300:
             pass
         else:
-            await ctx.send(f"{bot_ids[token]} failed to join")
-    await message.edit(content=f"All {len(tokens)} bots joined")
+            await ctx.send(f"{bot_ids[token]} FAILED TO JOIN!")
+    await message.edit(content=f"All {len(tokens)} BOTS JOINED!")
 
 
 @bot.command()
 @has_permissions(administrator=True)
 async def leave(ctx):
-    message = await ctx.send(f"Bots now leaving...")
+    message = await ctx.send(f"BOTS NOW LEAVING...")
     for token in tokens:
         try:
             user = ctx.guild.get_member(int(bot_ids[token]))
             await user.kick()
         except:
-            await ctx.send(f"Failed to kick {bot_ids[token]}")
-    await message.edit(content="All bots left")
+            await ctx.send(f"FAILED TO KICK: {bot_ids[token]}")
+    await message.edit(content="ALL BOTS LEFT!")
 
 
 @bot.command()
@@ -106,7 +105,7 @@ async def start(ctx, *, target: discord.Member):
     proceed = True
     count = 0
     rarecount = 0
-    await ctx.send("Now starting mining")
+    await ctx.send("STARTING MINING")
     while proceed:
         start = datetime.datetime.now()
         for token in channel_assignment.keys():
@@ -132,7 +131,7 @@ async def start(ctx, *, target: discord.Member):
 
 @bot.event #SELL RARES SEPRATE FUNC
 async def sellrares(ctx, target: discord.Member):
-    await ctx.send("Now selling rares")
+    await ctx.send("NOW SELLING RARES")
     if rarecount >= 20: #sell that shit
         start = datetime.datetime.now()
         rarecount = 0
@@ -164,17 +163,17 @@ async def sellrares(ctx, target: discord.Member):
 @bot.command()
 @has_permissions(administrator=True)
 async def stop(ctx):
-    message = await ctx.send("Stopping all mining...")
+    message = await ctx.send("STOPPING ALL MINING...")
     global proceed
     proceed = False
     await asyncio.sleep(3)
-    await message.edit(content="All mining stopped")
+    await message.edit(content="ALL MINING STOPPED!")
 
 
 @bot.command()
 @has_permissions(administrator=True)
 async def clean(ctx):
-    message = await ctx.send(f"Cleaning channels...")
+    message = await ctx.send(f"PURGING CHANNELS...")
     for token in tokens:
         channel = discord.utils.get(ctx.guild.channels, name=bot_ids[token])
         try:
@@ -183,13 +182,13 @@ async def clean(ctx):
             pass
     global channel_assignment
     channel_assignment = {}
-    await message.edit(content="Finished cleaning")
+    await message.edit(content="FININSHED PURGING CHANNELS")
 
 
 @bot.command()
 @has_permissions(administrator=True)
 async def check(ctx):
-    message = await ctx.send("Checking for blacklisted users...")
+    message = await ctx.send("CHECKING FOR BLACKLISTED USERS...")
     blacklisted = []
     for token in tokens:
         try:
@@ -235,8 +234,12 @@ async def channel(ctx, *, member: discord.Member):
         await message.edit(content=f"Bot's channel is {channel.mention}")
     except:
         await message.edit(content="Failed to find channel")
-#@bot.event
-#sync def daily(ctx, *, target: discord.Member) #ADD DAILY CLAIM
+
+@bot.event
+async def daily(ctx, target: discord.Member): #DAILY CLAIM
+    for token in channel_assignment.keys(): 
+        await send(token, "pls daily")
+        asyncio.sleep(12*60*60) #should be 24h if math correct idk man im tired af 
 
 @bot.event
 async def on_message(message):
